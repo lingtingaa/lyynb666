@@ -1,6 +1,6 @@
 /* 基础样式 */
 body {
-    background: url('assets/images/game-bg.jpg') no-repeat center/cover;
+    background: url('./assets/images/game-bg.jpg') no-repeat center/cover;
     height: 100vh;
     margin: 0;
     display: flex;
