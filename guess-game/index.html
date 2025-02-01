@@ -2,10 +2,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <!-- 新增空favicon声明 -->
+    <link rel="icon" href="data:,">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="referrer" content="no-referrer">
-    <title>吕阳阳猜拳游戏</title>
-    <link rel="stylesheet" href="style.css">
+    <title>吕阳阳猜拳小游戏</title>
+    <!-- 修正CSS路径 -->
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
     <h1 class="game-title">猜拳游戏</h1>
@@ -16,19 +19,36 @@
     </div>
     <div id="game-result"></div>
 
-    <!-- 音频系统 -->
-    <audio id="click-sound" src="assets/sounds/click.mp3"></audio>
-    <audio id="win-sound" src="assets/sounds/win.mp3"></audio>
-    <audio id="lose-sound" src="assets/sounds/lose.mp3"></audio>
+    <!-- 修正音频路径 -->
+    <audio id="click-sound" src="./assets/sounds/click.mp3"></audio>
+    <audio id="win-sound" src="./assets/sounds/win.mp3"></audio>
+    <audio id="lose-sound" src="./assets/sounds/lose.mp3"></audio>
 
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
     
-    <!-- 微信适配代码 -->
+    <!-- 微信适配增强 -->
     <script>
     document.addEventListener('WeixinJSBridgeReady', function() {
-        // 微信浏览器自动播放适配
         document.body.click();
     }, false);
+
+    // 新增路径容错处理
+    (function() {
+        const basePath = window.location.href.replace(/index\.html.*$/, '');
+        document.querySelectorAll('audio').forEach(audio => {
+            const originalSrc = audio.getAttribute('src');
+            audio.src = basePath + originalSrc;
+        });
+        
+        if(/MicroMessenger/i.test(navigator.userAgent)) {
+            const link = document.createElement('a');
+            link.href = './';
+            const baseUrl = link.href;
+            document.querySelectorAll('audio').forEach(audio => {
+                audio.src = baseUrl + audio.getAttribute('src');
+            });
+        }
+    })();
     </script>
 </body>
 </html>
