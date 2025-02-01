@@ -1,10 +1,28 @@
+// 资源加载检查
+window.addEventListener('load', () => {
+    // 检查背景图
+    const bg = new Image();
+    bg.src = './assets/images/game-bg.jpg';
+    bg.onerror = () => console.error('背景图加载失败，请检查路径：' + bg.src);
+
+    // 检查音频
+    ['click-sound', 'win-sound', 'lose-sound'].forEach(id => {
+        const audio = document.getElementById(id);
+        audio.addEventListener('error', () => {
+            console.error(`音效加载失败: ${id}，路径：${audio.src}`);
+        });
+    });
+});
+
 // 音效控制器
 const Sound = {
     play(id) {
         const audio = document.getElementById(id);
         if (!audio) return;
         audio.currentTime = 0;
-        audio.play().catch(() => {});
+        audio.play().catch((e) => {
+            console.warn('音频自动播放被阻止，请点击页面任意位置激活');
+        });
     }
 }
 
@@ -37,8 +55,12 @@ document.querySelectorAll('button').forEach(btn => {
     });
 
     // 移动端触摸反馈
-    btn.addEventListener('touchstart', () => btn.style.transform = 'scale(0.9)');
-    btn.addEventListener('touchend', () => btn.style.transform = 'scale(1)');
+    btn.addEventListener('touchstart', () => {
+        btn.style.transform = 'scale(0.9)';
+    });
+    btn.addEventListener('touchend', () => {
+        btn.style.transform = 'scale(1)';
+    });
 });
 
 // 核心游戏逻辑
@@ -84,5 +106,7 @@ function showResult(resultType) {
     resultDiv.appendChild(resultElement);
 
     // 6秒后自动清理
-    setTimeout(() => resultDiv.innerHTML = '', 6000);
+    setTimeout(() => {
+        resultDiv.innerHTML = '';
+    }, 6000);
 }
