@@ -1,41 +1,34 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>吕阳阳猜拳小游戏</title>
-  
-  <!-- 修改点1：所有路径添加 ./ 前缀 -->
-  <link rel="stylesheet" href="./css/style.css">
-  <script src="./js/phaser.min.js"></script>
-  <script src="./js/game.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>吕阳阳猜拳游戏</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- 保持原有游戏结构 -->
-  <div id="game-container">
-    <canvas id="game-canvas" width="800" height="600"></canvas>
-    <div class="control-panel">
-      <button id="start-btn">开始游戏</button>
-      <span id="score">得分: 0</span>
+    <h1 class="game-title">猜拳游戏</h1>
+    <div class="buttons">
+        <button data-move="✌️">✌️</button>
+        <button data-move="✊">✊</button>
+        <button data-move="🖐️">🖐️</button>
     </div>
-  </div>
+    <div id="game-result"></div>
 
-  <!-- 修改点2：动态资源加载示例 -->
-  <script>
-    // 初始化游戏资源
-    const loadResources = () => {
-      const heroImg = new Image();
-      heroImg.src = './assets/images/hero.png';  // 添加 ./
+    <!-- 音频系统 -->
+    <audio id="click-sound" src="assets/sounds/click.mp3"></audio>
+    <audio id="win-sound" src="assets/sounds/win.mp3"></audio>
+    <audio id="lose-sound" src="assets/sounds/lose.mp3"></audio>
 
-      const bgm = new Audio('./assets/sounds/bgm.mp3');  // 添加 ./
-      
-      // 保留原有事件监听
-      document.getElementById('start-btn').addEventListener('click', () => {
-        bgm.play();
-        // 原有游戏启动逻辑
-      });
-    }
-    window.onload = loadResources;
-  </script>
+    <script src="script.js"></script>
+    
+    <!-- 微信适配代码 -->
+    <script>
+    document.addEventListener('WeixinJSBridgeReady', function() {
+        // 微信浏览器自动播放适配
+        document.body.click();
+    }, false);
+    </script>
 </body>
 </html>
